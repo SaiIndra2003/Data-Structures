@@ -35,7 +35,7 @@ void Insert(int pos, int data){
     temp->next = NULL;
     int size = Size();
     if(pos>size){
-        pos=size;
+        pos=0;
     }
     if(head==NULL){
         //Empty List
