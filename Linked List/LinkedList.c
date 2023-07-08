@@ -59,9 +59,8 @@ void Insert(int pos, int data){
         return;
     } else{
         struct Node* temp1 = head;
-        while(pos!=2){                      //1->2->3->4->6
+        for(int i=0;i<pos-2;i++){
             temp1 = temp1->next;
-            pos--;
         }
         temp->next = temp1->next;
         temp1->next = temp;
@@ -79,16 +78,17 @@ void Delete(int pos){
         printf("Invalid position");
         return;
     }
-    int i = pos;
-    while(i!=2){
+
+    for(int i=0;i<pos-2;i++){
         temp = temp->next;
-        i--;
     }
+
     if(pos==size){
         free(temp->next->next);
         temp->next = NULL;
         return;
     }
+
     struct Node* temp1 = temp->next;
     temp->next = temp1->next;
     free(temp1);
