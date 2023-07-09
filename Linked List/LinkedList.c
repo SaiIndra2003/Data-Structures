@@ -155,6 +155,21 @@ void recursiveReverse(struct Node** head,struct Node* p){
     p->next=NULL;
 }
 
+struct Node* findMiddle(struct Node* head){
+	struct Node* temp1 = head;
+	struct Node* temp2 = head;
+	while(temp1->next!=NULL && temp2->next!=NULL){
+		temp1= temp1->next;
+		temp2= temp2->next->next;
+		if( temp2->next != NULL && temp2->next->next==NULL){
+			temp1= temp1->next;
+			temp2 = temp2->next;
+		}
+	}
+	return temp1;
+
+}
+
 int main(){
     struct Node* head = NULL;
     Insert(&head,1,1);
@@ -177,6 +192,8 @@ int main(){
     recursiveReverse(&head,head);
     // Reverse(&head);
     Print(head);
+    struct Node* middle = findMiddle(head);
+    printf("%d\n",middle->data);
     // ReversePrint(head);
     // Delete(1);
     // Delete(1);

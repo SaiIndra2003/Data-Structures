@@ -38,7 +38,7 @@ void Print(struct Node* head){
         rev = temp;
         temp=temp->next;
     }
-
+    
     printf("end\n");
 
     printf("\n List in Reverse Order : end->");
@@ -54,13 +54,13 @@ void Print(struct Node* head){
 }
 
 void Insert(struct Node** head, int pos, int data){
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node*));
-    struct Node* temp = *head;
-    newNode->data = data;
-    newNode->prev = NULL;
-    newNode->next = NULL;
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node*));
+    struct Node* temp1 = *head;
+    temp->data = data;
+    temp->prev = NULL;
+    temp->next = NULL;
     if(*head == NULL){
-        *head = newNode;
+        *head = temp;
         return;
     }
     int size = Size(*head);
@@ -71,29 +71,29 @@ void Insert(struct Node** head, int pos, int data){
     if(pos==1){
    
         //Inserting at begining
-        temp->prev = newNode;
-        newNode->next = temp;
-        *head = newNode;
+        temp1->prev = temp;
+        temp->next = temp1;
+        *head = temp;
         return;
     }
     if(pos == 0){
         //Inserting at Last 
   
-        while(temp->next!=NULL){
-            temp = temp->next;
+        while(temp1->next!=NULL){
+            temp1 = temp1->next;
         }
-        temp->next = newNode;
-        newNode->prev = temp;
+        temp1->next = temp;
+        temp->prev = temp1;
         return;
     }
     for (int i = 1; i < pos-1; i++){
-        temp=temp->next;
+        temp1=temp1->next;
     }
-    struct Node* temp1 = temp->next;
-    newNode->next = temp1;
-    newNode->prev = temp;
-    temp->next = newNode;
-    temp1->prev = newNode; 
+    struct Node* temp2 = temp1->next;
+    temp->next = temp2;
+    temp->prev = temp1;
+    temp1->next = temp;
+    temp2->prev = temp; 
     return;
 }
 
@@ -141,21 +141,33 @@ void Delete(struct Node** head, int pos){
 
 }
 
+struct Node* findMiddle(struct Node* head){
+	struct Node* temp1 = head;
+	struct Node* temp2 = head;
+	while(temp1->next!=NULL && temp2->next!=NULL){
+		temp1= temp1->next;
+		temp2= temp2->next->next;
+		if( temp2->next != NULL && temp2->next->next==NULL){
+			temp1= temp1->next;
+			temp2 = temp2->next;
+		}
+	}
+	return temp1;
+
+}
+
 int main(){
     struct Node* head = NULL;
     Insert(&head,1,1);
-    Print(head);
     Insert(&head,2,2);
-    Print(head);
     Insert(&head,3,3);
-    Print(head);
     Insert(&head,4,5);
-    Print(head);
     Insert(&head,4,4);
+    Insert(&head,6,6);
+    Insert(&head,7,7);
     Print(head);
+    struct Node* middle = findMiddle(head);
     printf("Success..\n");
-    Delete(&head,4);
-    Print(head);
-    Delete(&head,4);
-    Print(head);
+	printf("%d\n",middle->data);
+
 }
