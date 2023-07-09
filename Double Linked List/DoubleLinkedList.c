@@ -54,7 +54,7 @@ void Print(struct Node* head){
 }
 
 void Insert(struct Node** head, int pos, int data){
-    struct Node* temp = (struct Node*)malloc(sizeof(struct Node*));
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
     struct Node* temp1 = *head;
     temp->data = data;
     temp->prev = NULL;
