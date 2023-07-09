@@ -2,15 +2,13 @@
 #include <stdlib.h>
 
 struct Node{
-
     int data;
     struct Node* next;
     
 };
 
-struct Node* head; 
 
-int Size(){
+int Size(struct Node* head){
 
     struct Node* temp = head;
     if(temp == NULL){
@@ -25,7 +23,7 @@ int Size(){
 
 }
 
-void Print(){
+void Print(struct Node* head){
 
     struct Node* temp = head;
     printf("\nCurrent List is : ");
@@ -37,42 +35,51 @@ void Print(){
         printf("%d->",temp->data);
         temp=temp->next;
     }
-    printf("end");
+    printf("end\n");
     return;
 
 }
 
-void Insert(int pos, int data){
+void ReversePrint(struct Node* p){
+    if(p == NULL){
+        printf("Printing list from last.. :\n");
+        return;
+    }
+    ReversePrint(p->next);
+    printf("%d->",p->data);
+}
+
+void Insert(struct Node** head,int pos, int data){
 
     struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
     temp->data = data;
     temp->next = NULL;
-    int size = Size();
+    int size = Size(*head);
     if(pos>size){
         pos=0;
     }
-    if(head==NULL){
+    if(*head==NULL){
         //Empty List
-        head=temp;
+        *head=temp;
         return;
     }
 
     if(pos == 1){ 
         //Begining of List
-        temp->next = head;
-        head = temp;
+        temp->next = *head;
+        *head = temp;
         return;
     } 
     else if(pos == 0){
         //End of List
-        struct Node* temp1 = head;
+        struct Node* temp1 = *head;
         while(temp1->next!=NULL){
             temp1 = temp1->next;
         }
         temp1->next = temp;
         return;
     } else{
-        struct Node* temp1 = head;
+        struct Node* temp1 = *head;
         for(int i=0;i<pos-2;i++){
             temp1 = temp1->next;
         }
@@ -83,10 +90,10 @@ void Insert(int pos, int data){
     
 }
 
-void Delete(int pos){
+void Delete(struct Node** head,int pos){
 
-    int size = Size();
-    struct Node* temp = head;
+    int size = Size(*head);
+    struct Node* temp = *head;
 
     if(pos>size){
         printf("Invalid position");
@@ -94,7 +101,7 @@ void Delete(int pos){
     }
     if( size == 1){
         free(temp);
-        head=NULL;
+        *head=NULL;
         return;
     }
     for(int i=0;i<pos-2;i++){
@@ -114,18 +121,18 @@ void Delete(int pos){
 
 }
 
-void Reverse(){
-    if(head == NULL){
+void Reverse(struct Node** head){
+    if(*head == NULL){
         printf("\nCannot reverse...");
         return; 
     }
-    int size = Size();
+    int size = Size(*head);
     if(size == 1){
         printf("\nsingle noded list...");
         return;
     }
     struct Node *prev,*current,*next;
-    current = head;
+    current = *head;
     prev = NULL;
     while(current != NULL){
         next = current->next;
@@ -133,37 +140,38 @@ void Reverse(){
         prev = current;
         current = next;
     }
-    head = prev;
+    *head = prev;
     return;
 }
 
 int main(){
-    head = NULL;
-    Insert(1,1);
-    Insert(1,2);
-    Insert(0,5);
-    Insert(3,6);
-    Print();
-    int size = Size();
-    printf("size of the list is: %d",size);
-    Insert(3,7);
+    struct Node* head = NULL;
+    Insert(&head,1,1);
+    Insert(&head,1,2);
+    Insert(&head,0,5);
+    Insert(&head,3,6);
+    Print(head);
+    int size = Size(head);
+    printf("\nsize of the list is: %d",size);
+    Insert(&head,3,7);
     printf("\nBefore deleting element :");
-    Print();
-    Delete(10);
-    Delete(3);
-    printf("\nSize of list is: %d",Size());
-    Print();
-    Delete(3);
-    printf("\nSize of list is: %d",Size());
-    Print();
-    Reverse();
-    Print();
-    Delete(1);
-    Delete(1);
-    Print();
-    Reverse();
-    printf("\n%d",Size());
-    Delete(1);
-    Print(); 
-    printf("\n%d",Size());
+    Print(head);
+    Delete(&head,10);
+    Delete(&head,3);
+    printf("\nSize of list is: %d",Size(head));
+    Print(head);
+    Delete(&head,3);
+    // printf("\nSize of list is: %d",Size());
+    Print(head);
+    Reverse(&head);
+    Print(head);
+    ReversePrint(head);
+    // Delete(1);
+    // Delete(1);
+    // Print();
+    // Reverse();
+    // printf("\n%d",Size());
+    // Delete(1);
+    // Print(); 
+    // printf("\n%d",Size());
 }
