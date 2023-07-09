@@ -38,7 +38,7 @@ void Print(struct Node* head){
         rev = temp;
         temp=temp->next;
     }
-    
+
     printf("end\n");
 
     printf("\n List in Reverse Order : end->");
@@ -54,13 +54,13 @@ void Print(struct Node* head){
 }
 
 void Insert(struct Node** head, int pos, int data){
-    struct Node* temp = (struct Node*)malloc(sizeof(struct Node*));
-    struct Node* temp1 = *head;
-    temp->data = data;
-    temp->prev = NULL;
-    temp->next = NULL;
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node*));
+    struct Node* temp = *head;
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
     if(*head == NULL){
-        *head = temp;
+        *head = newNode;
         return;
     }
     int size = Size(*head);
@@ -71,29 +71,29 @@ void Insert(struct Node** head, int pos, int data){
     if(pos==1){
    
         //Inserting at begining
-        temp1->prev = temp;
-        temp->next = temp1;
-        *head = temp;
+        temp->prev = newNode;
+        newNode->next = temp;
+        *head = newNode;
         return;
     }
     if(pos == 0){
         //Inserting at Last 
   
-        while(temp1->next!=NULL){
-            temp1 = temp1->next;
+        while(temp->next!=NULL){
+            temp = temp->next;
         }
-        temp1->next = temp;
-        temp->prev = temp1;
+        temp->next = newNode;
+        newNode->prev = temp;
         return;
     }
     for (int i = 1; i < pos-1; i++){
-        temp1=temp1->next;
+        temp=temp->next;
     }
-    struct Node* temp2 = temp1->next;
-    temp->next = temp2;
-    temp->prev = temp1;
-    temp1->next = temp;
-    temp2->prev = temp; 
+    struct Node* temp1 = temp->next;
+    newNode->next = temp1;
+    newNode->prev = temp;
+    temp->next = newNode;
+    temp1->prev = newNode; 
     return;
 }
 
