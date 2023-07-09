@@ -144,6 +144,17 @@ void Reverse(struct Node** head){
     return;
 }
 
+void recursiveReverse(struct Node** head,struct Node* p){
+    if(p->next == NULL){
+        *head=p;
+        return;
+    }
+    recursiveReverse(head,p->next);
+    struct Node* q = p->next;
+    q->next=p;
+    p->next=NULL;
+}
+
 int main(){
     struct Node* head = NULL;
     Insert(&head,1,1);
@@ -163,9 +174,10 @@ int main(){
     Delete(&head,3);
     // printf("\nSize of list is: %d",Size());
     Print(head);
-    Reverse(&head);
+    recursiveReverse(&head,head);
+    // Reverse(&head);
     Print(head);
-    ReversePrint(head);
+    // ReversePrint(head);
     // Delete(1);
     // Delete(1);
     // Print();
