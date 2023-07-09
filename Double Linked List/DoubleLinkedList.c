@@ -24,16 +24,32 @@ int Size(struct Node* head){
 
 void Print(struct Node* head){
     struct Node* temp = head;
-    printf("\nCurrent List is : ");
+    struct Node* rev;
+
+    printf("\nCurrent List is : start->");
+
     if(temp==NULL){
         printf("Empty List..");
         return;
     }
+
     while(temp != NULL){
         printf("%d->",temp->data);
+        rev = temp;
         temp=temp->next;
     }
+    
     printf("end\n");
+
+    printf("\n List in Reverse Order : end->");
+
+    while(rev != NULL){
+        printf("%d->",rev->data);
+        rev = rev->prev;
+    }
+
+    printf("start\n");
+
     return;
 }
 
