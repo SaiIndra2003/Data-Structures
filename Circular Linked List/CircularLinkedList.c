@@ -133,34 +133,30 @@ void DeleteNode(struct Node** head, int pos){
     return;
 }
 
-// void Reverse(struct Node** head){
-//     if(*head ==  NULL){
-//         printf("Empty List...\n");
-//         return;
-//     }
-//     int size = getSize(*head);
-//     if(size == 1){
-//         printf("Single Noded List...\n");
-//         return;
-//     }
-//     struct Node *prev,*current,*next;
-//     current = *head;
-//     prev = NULL;
-//     while(current->next != *head){
-//         next = current->next;
-//         current->next = prev;
-//         prev = current;
-//         current = next;
-//         printf("%d\n",current->data);
-//     }
-//     next = current->next;
-//     current->next = prev;
-//     prev = current;
-//     current = next;
-//     printf("%d\n",current->data);
-//     *head = prev;
-//     return;
-// }
+void Reverse(struct Node** head){
+    if(*head ==  NULL){
+        printf("Empty List...\n");
+        return;
+    }
+    int size = getSize(*head);
+    if(size == 1){
+        printf("Single Noded List...\n");
+        return;
+    }
+    struct Node *prev,*current,*next;
+    current = *head;
+    prev = NULL;
+    do{
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }while(current != *head);
+    struct Node* temp = *head;
+    temp->next = prev;
+    *head = prev;
+    return;
+}
 
 int main(){
     struct Node* head = NULL;
@@ -170,6 +166,6 @@ int main(){
     InsertNode(&head,4,5);
     InsertNode(&head,4,4);
     DeleteNode(&head,5);
-    // Reverse(&head);
+    Reverse(&head);
     printList(head);
 }
