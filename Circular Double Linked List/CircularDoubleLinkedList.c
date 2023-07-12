@@ -74,7 +74,7 @@ void Insert(struct Node** head,int data,int pos){
     if(pos==1){
         // Inserting at the begining of List
 
-        printf("Inserting at the beggining of the list...\n");
+        printf("Inserting %d at the beggining of the list...\n",data);
         newNode->next = temp; 
 
         if(size == 1){
@@ -95,7 +95,7 @@ void Insert(struct Node** head,int data,int pos){
     if(pos==0){
         // Inserting at Last
 
-        printf("Inserting at Last Position... \n");
+        printf("Inserting %d at Last Position... \n", data);
         if(size == 1){
 
             newNode->prev = temp;
@@ -115,6 +115,8 @@ void Insert(struct Node** head,int data,int pos){
 
     }
 
+    printf("Inserting %d at %dth position...\n",data,pos);
+
     for(int i=0;i<pos-2;i++){
         temp = temp->next;
     }
@@ -128,6 +130,80 @@ void Insert(struct Node** head,int data,int pos){
 
 };
 
+
+void Delete(struct Node** head, int pos){
+    struct Node* temp = *head;
+    int size = getSize(temp);
+
+    if(temp==NULL){
+        printf("Empty List...\n");
+        return;
+    }
+
+    if (pos>size){
+        printf("Invalid position...\n");
+        return;
+    }
+
+    if(pos==size){
+        pos=0;
+    }
+
+    if(size == 1){
+        *head = NULL;
+        free(temp);
+        return;
+    }
+
+    if(pos==1){
+
+        if( size == 2 ){
+
+            struct Node* next = temp->next;
+            *head = next;
+            next->prev, next->next = NULL;
+            free(temp);
+            return; 
+
+        }
+
+        struct Node* prev = temp->prev;
+        struct Node* next = temp->next;
+
+        prev->next = next;
+        next->prev = prev;
+        *head = next;
+        free(temp);
+        return;
+    }
+
+    if(pos==0){
+
+        struct Node* lastNode = temp->prev;
+        struct Node* newLastNode = lastNode->prev;
+        newLastNode->next = lastNode->next; //Head
+        temp->prev = newLastNode;
+        free(lastNode);
+        return;
+
+    }
+
+    for(int i=0;i<pos-2;i++){
+
+        temp = temp->next;
+
+    }
+
+    struct Node* deleteNode = temp->next;
+    struct Node* temp1 = deleteNode->next;
+    temp->next = temp1;
+    temp1->prev = temp;
+    free(deleteNode);
+    return;
+
+}
+
+
 int main(){
 
     struct Node* head = NULL;
@@ -136,6 +212,7 @@ int main(){
     Insert(&head,3,0);
     Insert(&head,4,0);
     Insert(&head,2,2);
+    Delete(&head,3);
     printList(head);
 
 }
