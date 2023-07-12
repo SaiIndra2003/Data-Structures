@@ -73,9 +73,10 @@ void Insert(struct Node** head,int data,int pos){
 
     if(pos==1){
         // Inserting at the begining of List
+
         printf("Inserting at the beggining of the list...\n");
         newNode->next = temp; 
-        
+
         if(size == 1){
             newNode->prev = temp;
             temp->next = newNode;
@@ -90,6 +91,40 @@ void Insert(struct Node** head,int data,int pos){
 
         return;
     }
+    
+    if(pos==0){
+        // Inserting at Last
+
+        printf("Inserting at Last Position... \n");
+        if(size == 1){
+
+            newNode->prev = temp;
+            newNode->next = temp;
+            temp->next = newNode;
+            temp->prev = newNode;
+
+            return;
+        }
+
+        struct Node* lastNode = temp->prev;
+        temp->prev = newNode;
+        lastNode->next = newNode;
+        newNode->prev = lastNode;
+        newNode->next = temp;
+        return;
+
+    }
+
+    for(int i=0;i<pos-2;i++){
+        temp = temp->next;
+    }
+    struct Node* nextNode = temp->next;
+    newNode->next = nextNode;
+    newNode->prev = temp;
+    temp->next = newNode;
+    nextNode->prev = newNode;
+    
+    return;
 
 };
 
@@ -97,8 +132,10 @@ int main(){
 
     struct Node* head = NULL;
 
-    Insert(&head,2,1);
     Insert(&head,1,1);
+    Insert(&head,3,0);
+    Insert(&head,4,0);
+    Insert(&head,2,2);
     printList(head);
 
 }
